@@ -3,3 +3,6 @@ pandas
 sqlalchemy 
 python-dotenv 
 great_expectations
+dbt-core 
+dbt-duckdb 
+duckdb
