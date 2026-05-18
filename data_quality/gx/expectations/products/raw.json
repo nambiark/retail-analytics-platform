@@ -1,0 +1,50 @@
+{
+  "expectations": [
+    {
+      "id": "da04315c-f267-4cb1-b256-2d7766d8d109",
+      "kwargs": {
+        "column": "product_id"
+      },
+      "meta": {},
+      "severity": "critical",
+      "type": "expect_column_values_to_not_be_null"
+    },
+    {
+      "id": "0aff960d-2338-4c01-a847-9b230f91c6b3",
+      "kwargs": {
+        "column": "product_id"
+      },
+      "meta": {},
+      "severity": "critical",
+      "type": "expect_column_values_to_be_unique"
+    },
+    {
+      "id": "cf9e0277-588e-48d2-a2d9-f1bd4d884bf9",
+      "kwargs": {
+        "column": "product_weight_g",
+        "min_value": 0.0,
+        "mostly": 0.95
+      },
+      "meta": {},
+      "severity": "critical",
+      "type": "expect_column_values_to_be_between"
+    },
+    {
+      "id": "db1db758-dd47-4578-a779-5390aca3b63c",
+      "kwargs": {
+        "column": "product_length_cm",
+        "min_value": 0.0,
+        "mostly": 0.95
+      },
+      "meta": {},
+      "severity": "critical",
+      "type": "expect_column_values_to_be_between"
+    }
+  ],
+  "id": "c89007c1-491e-44bc-96f5-871fa91514e3",
+  "meta": {
+    "great_expectations_version": "1.17.2"
+  },
+  "name": "products.raw",
+  "notes": null
+}

@@ -22,3 +22,5 @@ airbyte/.env
 
 # Dataset
 data/
+
+data_quality/gx/uncommitted/

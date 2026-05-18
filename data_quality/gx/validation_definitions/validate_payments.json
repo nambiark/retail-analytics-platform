@@ -1,0 +1,22 @@
+{
+  "data": {
+    "asset": {
+      "id": "90b57424-3d97-441a-bf30-1f1a9df841fb",
+      "name": "payments"
+    },
+    "batch_definition": {
+      "id": "f0878944-8b23-42c7-a9a3-fca87ca6b270",
+      "name": "payments_full"
+    },
+    "datasource": {
+      "id": "44dfcd0b-9beb-4763-adbb-1c163f94b07c",
+      "name": "retail_postgres"
+    }
+  },
+  "id": "2a2ed605-4a12-4826-9133-7769ec4af36c",
+  "name": "validate_payments",
+  "suite": {
+    "id": "a5b82d71-b7c8-4e5b-9ed9-b06aca3d85f3",
+    "name": "payments.raw"
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "actions": [
+    {
+      "name": "update_data_docs",
+      "site_names": [],
+      "type": "update_data_docs"
+    }
+  ],
+  "id": "f10a4d3d-11f4-4072-9607-98c8f8c7b0da",
+  "name": "raw_tables_checkpoint",
+  "result_format": "SUMMARY",
+  "validation_definitions": [
+    {
+      "id": "7e9f05c5-9f86-4ae8-bdc8-640f3c69eba4",
+      "name": "validate_orders"
+    },
+    {
+      "id": "2a2ed605-4a12-4826-9133-7769ec4af36c",
+      "name": "validate_payments"
+    },
+    {
+      "id": "1efeffe4-d05a-4f5b-89ad-5ce5ce19350e",
+      "name": "validate_products"
+    }
+  ]
+}

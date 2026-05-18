@@ -1,0 +1,66 @@
+{
+  "expectations": [
+    {
+      "id": "2b99f7a3-2885-4214-88b7-eaaf68767f51",
+      "kwargs": {
+        "column": "order_id"
+      },
+      "meta": {},
+      "severity": "critical",
+      "type": "expect_column_values_to_not_be_null"
+    },
+    {
+      "id": "bd7fcde1-bc5d-4e25-b7a9-621330cf0103",
+      "kwargs": {
+        "column": "payment_value"
+      },
+      "meta": {},
+      "severity": "critical",
+      "type": "expect_column_values_to_not_be_null"
+    },
+    {
+      "id": "8ea9edf3-9322-46bd-b300-9bb9e63ea4bb",
+      "kwargs": {
+        "column": "payment_value",
+        "min_value": 0.0
+      },
+      "meta": {},
+      "severity": "critical",
+      "type": "expect_column_values_to_be_between"
+    },
+    {
+      "id": "0bb20301-78e0-4ade-be9c-c753fb7bac8a",
+      "kwargs": {
+        "column": "payment_type",
+        "value_set": [
+          "credit_card",
+          "boleto",
+          "voucher",
+          "debit_card",
+          "not_defined"
+        ]
+      },
+      "meta": {},
+      "severity": "critical",
+      "type": "expect_column_values_to_be_in_set"
+    },
+    {
+      "id": "3ededeb9-d8a5-49f5-ab9b-9fc353303321",
+      "kwargs": {
+        "column": "payment_installments",
+        "max_value": 24.0,
+        "min_value": 1.0,
+        "mostly": 0.99
+      },
+      "meta": {},
+      "severity": "critical",
+      "type": "expect_column_values_to_be_between"
+    }
+  ],
+  "id": "a5b82d71-b7c8-4e5b-9ed9-b06aca3d85f3",
+  "meta": {
+    "great_expectations_version": "1.17.2"
+  },
+  "name": "payments.raw",
+  "notes": null
+}

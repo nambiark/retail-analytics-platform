@@ -1,0 +1,75 @@
+{
+  "expectations": [
+    {
+      "id": "6d3e55fb-dd6b-4fd4-81b4-9fa47514b0cd",
+      "kwargs": {
+        "column": "order_id"
+      },
+      "meta": {},
+      "severity": "critical",
+      "type": "expect_column_values_to_not_be_null"
+    },
+    {
+      "id": "6e4360dd-de89-4e38-ae62-2cd86f0012c8",
+      "kwargs": {
+        "column": "order_id"
+      },
+      "meta": {},
+      "severity": "critical",
+      "type": "expect_column_values_to_be_unique"
+    },
+    {
+      "id": "aeaa50da-8558-41d5-9410-ebe73ea3e96b",
+      "kwargs": {
+        "column": "customer_id"
+      },
+      "meta": {},
+      "severity": "critical",
+      "type": "expect_column_values_to_not_be_null"
+    },
+    {
+      "id": "5571dd95-97ae-4a6f-b808-9642b04c35c6",
+      "kwargs": {
+        "column": "order_status",
+        "value_set": [
+          "delivered",
+          "shipped",
+          "canceled",
+          "unavailable",
+          "invoiced",
+          "processing",
+          "created",
+          "approved"
+        ]
+      },
+      "meta": {},
+      "severity": "critical",
+      "type": "expect_column_values_to_be_in_set"
+    },
+    {
+      "id": "6fd6b2d4-4fdb-4849-9b5b-d3fa33002167",
+      "kwargs": {
+        "max_value": 110000,
+        "min_value": 90000
+      },
+      "meta": {},
+      "severity": "critical",
+      "type": "expect_table_row_count_to_be_between"
+    },
+    {
+      "id": "f6eefd68-8f92-470a-bb26-96b842fcb346",
+      "kwargs": {
+        "column": "order_purchase_timestamp"
+      },
+      "meta": {},
+      "severity": "critical",
+      "type": "expect_column_values_to_not_be_null"
+    }
+  ],
+  "id": "1fdae3f3-ad2f-43cd-a6e3-56a7b0bf76be",
+  "meta": {
+    "great_expectations_version": "1.17.2"
+  },
+  "name": "orders.raw",
+  "notes": null
+}

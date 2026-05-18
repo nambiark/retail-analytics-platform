@@ -2,4 +2,4 @@ psycopg2-binary
 pandas 
 sqlalchemy 
 python-dotenv 
-great-expectations
+great_expectations

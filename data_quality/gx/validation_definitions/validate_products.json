@@ -1,0 +1,22 @@
+{
+  "data": {
+    "asset": {
+      "id": "d045a52b-46fc-4ec2-8800-a1fd804853c8",
+      "name": "products"
+    },
+    "batch_definition": {
+      "id": "f16f2fb5-ab8b-4c4c-89d5-f4323769af6e",
+      "name": "products_full"
+    },
+    "datasource": {
+      "id": "44dfcd0b-9beb-4763-adbb-1c163f94b07c",
+      "name": "retail_postgres"
+    }
+  },
+  "id": "1efeffe4-d05a-4f5b-89ad-5ce5ce19350e",
+  "name": "validate_products",
+  "suite": {
+    "id": "c89007c1-491e-44bc-96f5-871fa91514e3",
+    "name": "products.raw"
+  }
+}
