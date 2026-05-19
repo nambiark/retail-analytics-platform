@@ -40,25 +40,32 @@ select
 
     -- customer info
     c.customer_unique_id,
-    c.city                                    as customer_city,
-    c.state                                   as customer_state,
-    c.zip_code                                as customer_zip_code,
+    c.city                                        as customer_city,
+    c.state                                       as customer_state,
+    c.zip_code                                    as customer_zip_code,
 
-    -- payment info
-    p.total_payment_value,
-    p.payment_types_used,
-    p.max_installments,
-    p.payment_methods,
+    -- payment info (coalesce handles orders with no payment record)
+    coalesce(p.total_payment_value, 0)            as total_payment_value,
+    coalesce(p.payment_types_used, 0)             as payment_types_used,
+    coalesce(p.max_installments, 0)               as max_installments,
+    coalesce(p.payment_methods, 'none')           as payment_methods,
 
     -- items info
-    i.item_count,
-    i.total_items_price,
-    i.total_freight_value,
-    i.total_order_value,
+    coalesce(i.item_count, 0)                     as item_count,
+    coalesce(i.total_items_price, 0)              as total_items_price,
+    coalesce(i.total_freight_value, 0)            as total_freight_value,
+    coalesce(i.total_order_value, 0)              as total_order_value,
 
-    -- derived
-    datediff('day', o.purchased_at, o.delivered_at) as days_to_deliver,
-    datediff('day', o.delivered_at, o.estimated_delivery_at) as days_early_or_late
+    -- derived (null safe)
+    case
+        when o.delivered_at is not null
+        then datediff('day', o.purchased_at, o.delivered_at)
+    end                                           as days_to_deliver,
+    case
+        when o.delivered_at is not null
+        and o.estimated_delivery_at is not null
+        then datediff('day', o.delivered_at, o.estimated_delivery_at)
+    end                                           as days_early_or_late
 
 from orders o
 left join customers c       using (customer_id)

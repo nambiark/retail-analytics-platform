@@ -8,6 +8,9 @@ models:
         tests:
           - unique
           - not_null
+      # in models/intermediate/schema.yml, update the column description:
+# total_payment_value: "Sum of all payments for the order. 
+#   Defaults to 0 for orders with no payment record (e.g. abandoned/created status)."
       - name: total_payment_value
         tests:
           - not_null
