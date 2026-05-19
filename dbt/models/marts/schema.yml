@@ -1,0 +1,53 @@
+version: 2
+
+models:
+  - name: fct_orders
+    description: >
+      One row per order. Core fact table for revenue and delivery analytics.
+      Incremental — new orders appended on each run.
+    columns:
+      - name: order_id
+        tests:
+          - unique
+          - not_null
+      - name: customer_id
+        tests:
+          - not_null
+      - name: order_status
+        tests:
+          - accepted_values:
+              values: ['delivered','shipped','canceled','unavailable',
+                       'invoiced','processing','created','approved']
+      - name: total_payment_value
+        tests:
+          - not_null
+      - name: is_delivered
+        description: True if order status is delivered
+
+  - name: dim_customers
+    description: >
+      One row per unique customer. Includes lifetime value
+      and segmentation (vip, repeat, one_time).
+    columns:
+      - name: customer_id
+        tests:
+          - unique
+          - not_null
+      - name: customer_segment
+        tests:
+          - accepted_values:
+              values: ['vip','repeat','one_time','no_orders']
+
+  - name: dim_products
+    description: >
+      One row per product. Includes sales performance
+      and revenue tier classification.
+    columns:
+      - name: product_id
+        tests:
+          - unique
+          - not_null
+      - name: revenue_tier
+        tests:
+          - accepted_values:
+              values: ['high','medium','low']
