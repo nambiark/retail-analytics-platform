@@ -1,0 +1,75 @@
+name: dbt CI
+
+on:
+  push:
+    branches: [main, dev]
+    paths:
+      - 'dbt/**'
+      - '.github/workflows/dbt_ci.yml'
+  pull_request:
+    branches: [main]
+    paths:
+      - 'dbt/**'
+
+jobs:
+  dbt-test:
+    name: Run dbt models and tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: |
+          pip install dbt-core dbt-duckdb duckdb pandas
+
+      - name: Create DuckDB seed data
+        run: |
+          python infra/load_duckdb.py
+        env:
+          POSTGRES_HOST: localhost
+          POSTGRES_PORT: 5432
+          POSTGRES_USER: retail_user
+          POSTGRES_PASSWORD: retail_pass
+          POSTGRES_DB: retail_raw
+
+      - name: Set up dbt profile
+        run: |
+          mkdir -p ~/.dbt
+          cat > ~/.dbt/profiles.yml << 'PROFILE'
+          retail_transforms:
+            target: ci
+            outputs:
+              ci:
+                type: duckdb
+                path: "data/retail.duckdb"
+                threads: 4
+          PROFILE
+
+      - name: dbt debug
+        run: dbt debug
+        working-directory: dbt
+
+      - name: dbt run
+        run: dbt run
+        working-directory: dbt
+
+      - name: dbt test
+        run: dbt test
+        working-directory: dbt
+
+      - name: Upload dbt artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: dbt-artifacts
+          path: |
+            dbt/target/manifest.json
+            dbt/target/run_results.json
