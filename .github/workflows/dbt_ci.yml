@@ -5,6 +5,7 @@ on:
     branches: [main, dev]
     paths:
       - 'dbt/**'
+      - 'infra/**'
       - '.github/workflows/dbt_ci.yml'
   pull_request:
     branches: [main]
@@ -15,6 +16,13 @@ jobs:
   dbt-test:
     name: Run dbt models and tests
     runs-on: ubuntu-latest
+
+    env:
+      POSTGRES_HOST: ${{ secrets.POSTGRES_HOST }}
+      POSTGRES_PORT: ${{ secrets.POSTGRES_PORT }}
+      POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
+      POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+      POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
 
     steps:
       - name: Checkout code
@@ -28,17 +36,13 @@ jobs:
 
       - name: Install dependencies
         run: |
-          pip install dbt-core dbt-duckdb duckdb pandas
+          pip install dbt-core dbt-duckdb duckdb pandas \
+                      psycopg2-binary sqlalchemy python-dotenv
 
-      - name: Create DuckDB seed data
+      - name: Connect to Postgres and load into DuckDB
         run: |
+          mkdir -p data
           python infra/load_duckdb.py
-        env:
-          POSTGRES_HOST: localhost
-          POSTGRES_PORT: 5432
-          POSTGRES_USER: retail_user
-          POSTGRES_PASSWORD: retail_pass
-          POSTGRES_DB: retail_raw
 
       - name: Set up dbt profile
         run: |
@@ -73,3 +77,10 @@ jobs:
           path: |
             dbt/target/manifest.json
             dbt/target/run_results.json
+
+      - name: Upload test failures
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: dbt-test-failures
+          path: dbt/target/run_results.json
