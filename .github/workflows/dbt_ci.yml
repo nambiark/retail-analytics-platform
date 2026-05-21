@@ -35,9 +35,7 @@ jobs:
           cache: 'pip'
 
       - name: Install dependencies
-        run: |
-          pip install dbt-core dbt-duckdb duckdb pandas \
-                      psycopg2-binary sqlalchemy python-dotenv
+        run: pip install -r requirements.txt
 
       - name: Connect to Postgres and load into DuckDB
         run: |
@@ -47,15 +45,13 @@ jobs:
       - name: Set up dbt profile
         run: |
           mkdir -p ~/.dbt
-          cat > ~/.dbt/profiles.yml << 'PROFILE'
-          retail_transforms:
+          echo "retail_transforms:
             target: ci
             outputs:
               ci:
                 type: duckdb
-                path: "data/retail.duckdb"
-                threads: 4
-          PROFILE
+                path: $GITHUB_WORKSPACE/data/retail.duckdb
+                threads: 4" > ~/.dbt/profiles.yml
 
       - name: dbt debug
         run: dbt debug
