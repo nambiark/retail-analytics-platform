@@ -9,6 +9,7 @@ An end-to-end data engineering project simulating a production-grade retail anal
 
 Ingests 100k+ orders from a Brazilian e-commerce platform, validates data quality, models it into a dimensional warehouse, orchestrates the full pipeline on a schedule, and serves business dashboards — covering the complete data stack from raw ingestion through BI consumption.
 
+```
 ## Architecture
 Supabase Postgres (source)
 ↓
@@ -28,6 +29,7 @@ Prefect — orchestration + scheduling (daily 6am)
 Metabase — self-serve BI dashboards
 ↓
 GitHub Actions — CI/CD (dbt run + test on every push)
+```
 
 ## Stack
 
@@ -183,23 +185,29 @@ GitHub Actions runs on every push to `main` or `dev`:
 **SCD Type 2 for customers** — the dbt snapshot tracks historical changes to customer location. In production this matters for accurate geographic reporting — a customer who moved states shouldn't skew historical regional revenue.
 
 ## Project structure
+## Project structure
+
+```
 retail-analytics-platform/
-├── .github/workflows/     # CI/CD pipelines
-├── airbyte/               # connector configs
-├── data_quality/          # Great Expectations suites + checkpoints
-├── dbt/
-│   ├── models/
-│   │   ├── staging/       # 6 models
-│   │   ├── intermediate/  # 2 models
-│   │   └── marts/         # 3 models
-│   ├── snapshots/         # SCD Type 2
-│   └── dbt_project.yml
-├── dashboards/sql/        # underlying dashboard queries
-├── infra/                 # data loading scripts
-├── orchestration/
-│   ├── flows/             # Prefect flows
-│   └── tasks/             # individual task definitions
-├── screenshots/           # dashboard screenshots
-├── docker-compose.yml
-├── requirements.txt
-└── README.md 
+|-- .github/
+|   └-- workflows/          # CI/CD pipelines
+|-- airbyte/                 # connector configs
+|-- data_quality/            # Great Expectations suites + checkpoints
+|-- dbt/
+|   |-- models/
+|   |   |-- staging/         # 6 models
+|   |   |-- intermediate/    # 2 models
+|   |   └-- marts/           # 3 models
+|   |-- snapshots/           # SCD Type 2
+|   └-- dbt_project.yml
+|-- dashboards/
+|   └-- sql/                 # underlying dashboard queries
+|-- infra/                   # data loading scripts
+|-- orchestration/
+|   |-- flows/               # Prefect flows
+|   └-- tasks/               # individual task definitions
+|-- screenshots/             # dashboard screenshots
+|-- docker-compose.yml
+|-- requirements.txt
+└-- README.md
+```
