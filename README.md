@@ -14,3 +14,6 @@ An end-to-end data engineering project built with free, open-source tools.
 
 ## Setup
 _Coming soon_
+
+## CI Status
+![dbt CI](https://github.com/nambiark/retail-analytics-platform/actions/workflows/dbt_ci.yml/badge.svg)
