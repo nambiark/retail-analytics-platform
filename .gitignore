@@ -24,3 +24,5 @@ airbyte/.env
 data/
 
 data_quality/gx/uncommitted/
+
+dashboards/evidence/.env

@@ -1,0 +1,11 @@
+name: Postgres
+type: postgres
+options:
+  database: postgres
+  host: aws-1-us-east-1.pooler.supabase.com
+  port: 5432
+  schema: marts
+  user: postgres.wrcrgeoggwpypcsrlypt
+  password: ai0f15fRrM11QO3K
+  ssl: true
+  sslmode: require
