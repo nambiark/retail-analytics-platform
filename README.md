@@ -1,7 +1,6 @@
 # Retail Analytics Platform
 
 ![dbt CI](https://github.com/nambiark/retail-analytics-platform/actions/workflows/dbt_ci.yml/badge.svg)
-![Data Quality](https://github.com/nambiark/retail-analytics-platform/actions/workflows/data_quality.yml/badge.svg)
 
 An end-to-end data engineering project simulating a production-grade retail analytics stack — built entirely with free, open-source tools.
 
@@ -9,25 +8,29 @@ An end-to-end data engineering project simulating a production-grade retail anal
 
 Ingests 100k+ orders from a Brazilian e-commerce platform, validates data quality, models it into a dimensional warehouse, orchestrates the full pipeline on a schedule, and serves business dashboards — covering the complete data stack from raw ingestion through BI consumption.
 
-```
 ## Architecture
+```
 Supabase Postgres (source)
-↓
-Airbyte — ELT ingestion
-↓
+|
+v
 DuckDB — local data warehouse
-↓
+|
+v
 Great Expectations — data quality gates (raw + marts)
-↓
+|
+v
 dbt Core — modular transformations
-├── staging/       6 models  (views)
-├── intermediate/  2 models  (views)
-└── marts/         3 models  (tables + incremental)
-↓
+|-- staging/       6 models  (views)
+|-- intermediate/  2 models  (views)
+└-- marts/         3 models  (tables + incremental)
+|
+v
 Prefect — orchestration + scheduling (daily 6am)
-↓
+|
+v
 Metabase — self-serve BI dashboards
-↓
+|
+v
 GitHub Actions — CI/CD (dbt run + test on every push)
 ```
 
@@ -95,32 +98,26 @@ Runs before any transformation. Blocks the pipeline if raw data fails expectatio
 
 ## Dashboards
 
-Three Metabase dashboards built on mart layer:
+Three Metabase dashboards built on the mart layer:
 
 **Revenue Overview**
-- Monthly revenue trend
-- Revenue by state
-- Order status breakdown
-- Average delivery time by state
+
+![Revenue Overview](screenshots/dashboards/Revenue_Overview.png)
 
 **Customer Analytics**
-- Customer segment distribution (VIP / repeat / one-time)
-- Average lifetime value by state
-- New customer acquisition by month
+
+![Customer Analytics](screenshots/dashboards/Customer_Analytics.png)
 
 **Product Performance**
-- Revenue by product category
-- Products by revenue tier
 
-![Revenue Overview](screenshots/dashboards/revenue_overview.png)
-![Customer Analytics](screenshots/dashboards/customer_analytics.png)
-![Product Performance](screenshots/dashboards/product_performance.png)
+![Product Performance](screenshots/dashboards/Product_Performance.png)
 
 ## Incremental loading strategy
 
 `fct_orders` uses dbt incremental materialization — on each pipeline run only orders newer than the latest `purchased_at` in the existing table are processed. This simulates a real production pattern where a fact table grows daily without full rebuilds.
 
 To simulate incremental loading with this static dataset:
+
 ```bash
 # load 80% of data first
 python infra/load_raw_data.py --sample 0.8
@@ -185,7 +182,6 @@ GitHub Actions runs on every push to `main` or `dev`:
 **SCD Type 2 for customers** — the dbt snapshot tracks historical changes to customer location. In production this matters for accurate geographic reporting — a customer who moved states shouldn't skew historical regional revenue.
 
 ## Project structure
-## Project structure
 
 ```
 retail-analytics-platform/
@@ -210,4 +206,5 @@ retail-analytics-platform/
 |-- docker-compose.yml
 |-- requirements.txt
 └-- README.md
+
 ```
