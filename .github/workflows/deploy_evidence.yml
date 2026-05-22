@@ -1,0 +1,58 @@
+name: Deploy Evidence to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'dashboards/evidence/**'
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+          cache-dependency-path: dashboards/evidence/package-lock.json
+
+      - name: Install dependencies
+        working-directory: dashboards/evidence
+        run: npm install
+
+      - name: Build Evidence
+        working-directory: dashboards/evidence
+        env:
+          EVIDENCE_SOURCE__Postgres__password: ${{ secrets.EVIDENCE_POSTGRES_PASSWORD }}
+          NODE_TLS_REJECT_UNAUTHORIZED: '0'
+        run: npm run build
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: dashboards/evidence/build
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
