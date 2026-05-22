@@ -14,15 +14,21 @@ dbt/logs/
 *.duckdb
 *.duckdb.wal
 
-# Airbyte
-airbyte/.env
+# Data files
+data/raw/
+data/*.duckdb
+
+# Great Expectations
+data_quality/gx/uncommitted/
 
 # macOS
 .DS_Store
 
-# Dataset
-data/
+# Render
+render.yaml
+Dockerfile
 
-data_quality/gx/uncommitted/
-
-dashboards/evidence/.env
+# Node
+package-lock.json
+node_modules/
+dashboards/evidence/

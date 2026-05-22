@@ -11,26 +11,26 @@ Ingests 100k+ orders from a Brazilian e-commerce platform, validates data qualit
 ## Architecture
 ```
 Supabase Postgres (source)
-|
-v
+    |
+    v
 DuckDB — local data warehouse
-|
-v
+    |
+    v
 Great Expectations — data quality gates (raw + marts)
-|
-v
+    |
+    v
 dbt Core — modular transformations
 |-- staging/       6 models  (views)
 |-- intermediate/  2 models  (views)
 └-- marts/         3 models  (tables + incremental)
-|
-v
+    |
+    v
 Prefect — orchestration + scheduling (daily 6am)
-|
-v
+    |
+    v
 Metabase — self-serve BI dashboards
-|
-v
+    |
+    v
 GitHub Actions — CI/CD (dbt run + test on every push)
 ```
 
@@ -39,7 +39,6 @@ GitHub Actions — CI/CD (dbt run + test on every push)
 | Layer | Tool | Why |
 |---|---|---|
 | Source database | Supabase (Postgres) | Simulates production backend DB |
-| Ingestion | Airbyte Community | ELT, connector ecosystem |
 | Warehouse | DuckDB | Columnar, local, Parquet-native |
 | Transformation | dbt Core | Modular, testable, documented |
 | Data quality | Great Expectations | Expectation suites, HTML reports |
@@ -187,7 +186,6 @@ GitHub Actions runs on every push to `main` or `dev`:
 retail-analytics-platform/
 |-- .github/
 |   └-- workflows/          # CI/CD pipelines
-|-- airbyte/                 # connector configs
 |-- data_quality/            # Great Expectations suites + checkpoints
 |-- dbt/
 |   |-- models/
